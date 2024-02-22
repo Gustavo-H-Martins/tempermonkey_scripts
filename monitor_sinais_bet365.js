@@ -13,6 +13,7 @@
 (function () {
   "use strict";
   const delay = 500;
+  const blockedValues = [2.40, 2.37];
   let lastSentMessage = "";
   let ultimoPadrao = "ultimo";
   let penultimoPadrao = "penultimo"
@@ -87,8 +88,8 @@
 
       // Iterar sobre os valores da célula atual
       currentValues.forEach((currentValue) => {
-        // Verificar se existe correspondente na célula seguinte
-        if (nextValues.includes(currentValue)) {
+        // Verificar se existe correspondente na célula seguinte e se não está bloqueado
+        if (nextValues.includes(currentValue) && !blockedValues.includes(currentValue)) {
           intersectingValues.add(currentValue);
         }
       });
