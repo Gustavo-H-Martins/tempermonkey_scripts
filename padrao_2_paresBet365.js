@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         ScriptGustavoMartinsBet365
+// @name         padrão_2_paresBet365
 // @namespace    http://tampermonkey.net/
 // @version      1
-// @description  Esta função faz o envio de forma esporádica a cada 500 milisegundos de sinais bet 365
+// @description  Esta função faz o envio de forma esporádica a cada 30 segundos de sinais bet 365
 // @author       Gustavo Martins
 // @match        https://bbtips.com.br/speedway/horarios
+// @match        https://app.bbtips.com.br/speedway/horarios
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=bbtips.com.br
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
@@ -12,11 +13,12 @@
 
 (function () {
   "use strict";
-  const delay = 500;
-  const blockedValues = [2.40, 2.37];
+  const delay = 30 * 1000;
+  const blockedValues = ["2.40", "2.37"];
   let lastSentMessage = "";
   let ultimoPadrao = "ultimo";
   let penultimoPadrao = "penultimo"
+  let antepenultimo = "antepenultimo"
   const token = "6747759570:AAFw4-rtwKN0kG5zGYdO8db397kSyrDGMBQ";
   const chat_id = "5754261195";
 
@@ -86,8 +88,9 @@
       // Array para armazenar os valores que combinam usando um conjunto para evitar duplicatas
       let intersectingValues = new Set();
 
-      // Iterar sobre os valores da célula atual
+     // Iterar sobre os valores da célula atual
       currentValues.forEach((currentValue) => {
+          //console.log(typeof currentValue)
         // Verificar se existe correspondente na célula seguinte e se não está bloqueado
         if (nextValues.includes(currentValue) && !blockedValues.includes(currentValue)) {
           intersectingValues.add(currentValue);
@@ -98,9 +101,13 @@
       if (intersectingValues.size >= 2) {
           let nova_mensagem = `Conjuntos comuns encontrados: ${currentValues} e ${nextValues}`
           // TRAVA PARA ULTIMO E PENULTIMO PADRAO
-          if (nova_mensagem != ultimoPadrao && ultimoPadrao != penultimoPadrao && nova_mensagem != penultimoPadrao) {
+          if (nova_mensagem != ultimoPadrao && ultimoPadrao != penultimoPadrao && nova_mensagem != penultimoPadrao && penultimoPadrao != antepenultimo) {
+              /*
               console.log(`Último Padrâo: ${ultimoPadrao}`);
               console.log(`Penúltimo Padrão:${penultimoPadrao}`)
+              console.log(`Antepenúltimo Padrão:${antepenultimo}`)
+              */
+              antepenultimo = penultimoPadrao
               penultimoPadrao = ultimoPadrao
               ultimoPadrao = nova_mensagem
               console.log(`Nova Mensagem: ${nova_mensagem}`);
