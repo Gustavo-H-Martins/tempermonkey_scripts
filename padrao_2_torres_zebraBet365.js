@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         padrão_zebraBet365
+// @name         padrao_2_torres_zebraBet365
 // @namespace    http://tampermonkey.net/
 // @version      1
 // @description  Esta função faz o envio de forma esporádica a cada 500 milisegundos de sinais bet 365
