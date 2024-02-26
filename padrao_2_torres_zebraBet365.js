@@ -98,7 +98,7 @@
   
         // Verifica se há mais de 2 valores no array intersectingValues e se os valores são diferentes
         if (intersectingValues.size >= 1) {
-            let nova_mensagem = `Conjuntos no padrão Zebra: ${currentValues} e ${nextValues}`
+            let nova_mensagem = `Padrão Zebra 2 torres SpeedWay: ${currentValues} e ${nextValues}`
             // TRAVA PARA ULTIMO E PENULTIMO PADRAO
             if (nova_mensagem != ultimoPadrao && ultimoPadrao != penultimoPadrao && nova_mensagem != penultimoPadrao && penultimoPadrao != antepenultimo && antepenultimo != anteantepenultimo) {
                 /*

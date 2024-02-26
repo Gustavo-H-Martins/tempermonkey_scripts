@@ -99,7 +99,7 @@
 
       // Verifica se há mais de 2 valores no array intersectingValues e se os valores são diferentes
       if (intersectingValues.size >= 2) {
-          let nova_mensagem = `Conjuntos comuns encontrados: ${currentValues} e ${nextValues}`
+          let nova_mensagem = `Padrão 2 Pares SpeedWay: ${currentValues} e ${nextValues}`
           // TRAVA PARA ULTIMO E PENULTIMO PADRAO
           if (nova_mensagem != ultimoPadrao && ultimoPadrao != penultimoPadrao && nova_mensagem != penultimoPadrao && penultimoPadrao != antepenultimo) {
               /*

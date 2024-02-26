@@ -38,11 +38,11 @@
   
     function checkForNewColumn() {
       let rows = document.querySelectorAll(
-        "body > app-root > app-horarios > main > section > div.row.d-flex.justify-content-around.mt-1 > div.col-md-10.mt-6 > table > tbody > tr"
+        "body > app-root > app-horarios > main > section > div.row.d-flex.justify-content-around.mt-1 > div.col-md-10.mt-6 > table > tbody > tr:nth-child(1)"
       );
   
       rows.forEach((row) => {
-        let cells = row.querySelectorAll("td");
+        let cells = row.querySelectorAll("td.SemDados > div > p");
         let filledCells = Array.from(cells).filter(
           (cell) => cell.innerText.trim() !== ""
         );
@@ -65,10 +65,10 @@
             let contagemValores = {};
 
             currentValues.forEach((currentValue) => {
-                // Verifica se o valor já foi encontrado e é maior que 4.00
-                if (contagemValores[currentValue] &&  parseFloat(currentValue) >= 4.00) {
-                        //console.log(`Valor repetido maior ou igual a 4: ${currentValue}`);
-                        sendMessage(`Torre com padrão Zebra 1 torre: ${currentValues}`, ultimateCell.innerText.trim());
+                // Verifica se o valor já foi encontrado e é menor ou igual a 4.00
+                if (contagemValores[currentValue] &&  parseFloat(currentValue) <= 4.00) {
+                        //console.log(`Valor repetido menor ou igual a 4: ${currentValue}`);
+                        sendMessage(`Padrão Zebra 1 torre SpeedWay: ${currentValues}`, ultimateCell.innerText.trim());
                 } else {
                     // Se o valor ainda não foi encontrado, adiciona ao objeto
                     contagemValores[currentValue] = 1;
