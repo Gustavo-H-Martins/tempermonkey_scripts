@@ -14,11 +14,13 @@
   "use strict";
   const delay = 500;
   let lastSentMessage = "";
+  let mensagem = "";
   const token = "6747759570:AAFw4-rtwKN0kG5zGYdO8db397kSyrDGMBQ";
   const chat_id = "5754261195";
 
-  function sendMessage(text, padrao) {
-    lastSentMessage = padrao;
+  function sendMessage(text) {
+    lastSentMessage = text;
+    mensagem = `Padrão Zebra 1 torre ${text}`
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
     GM_xmlhttpRequest({
       method: "POST",
@@ -26,7 +28,7 @@
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      data: `chat_id=${chat_id}&text=${encodeURIComponent(text)}`,
+      data: `chat_id=${chat_id}&text=${encodeURIComponent(mensagem)}`,
       onload: function (response) {
         console.log("Response received from Telegram:", response.responseText);
       },
@@ -68,8 +70,8 @@
               // Verifica se o valor já foi encontrado e é menor ou igual a 4.00
               if (contagemValores.hasOwnProperty(currentValue) && !isNaN(parseFloat(currentValue))) {
                   if (parseFloat(currentValue) <= 4) {
-                      //console.log(`Valor repetido menor ou igual a 4: ${currentValue}`);
-                      sendMessage(`Padrão Zebra 1 torre SpeedWay: ${currentValues}`, ultimateCell.innerText.trim());
+                      console.log(`Valor repetido menor ou igual a 4: ${currentValue}`);
+                      sendMessage(ultimateCell.innerText.trim());
                   }
               } else {
                   // Se o valor ainda não foi encontrado ou é "NaN", adiciona ao objeto
