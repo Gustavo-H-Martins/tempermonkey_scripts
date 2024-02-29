@@ -30,10 +30,10 @@ Este script foi desenvolvido para monitorar e analisar dados de uma tabela espec
 Este projeto não possui uma licença específica. Consulte o arquivo [LICENSE](./app/licence) para mais detalhes.
 
 ## ☕ ChangeLog
-Veja as versões [changelog](./changelog.md)
+Veja as versões [changelog](./docs/changelog.md)
 
 ## 🏃‍♂️ AtalhosComando
-[Atalhos](./atalhos.md) úteis deste projeto 
+[Atalhos](./docs/atalhos.md) úteis deste projeto 
 
 ## 📃📄 Documentação
 [Documentação](./docs/documentacao.md)

@@ -4,3 +4,8 @@
 // Atualize o array blockedValues, se necessário
 // Execute o script na página da web alvo
 ```
+
+```bash
+# Atualizar changelog.md
+git log --pretty=format:"%h - %an, %ar : %s" --graph  > docs/changelog.md
+```
