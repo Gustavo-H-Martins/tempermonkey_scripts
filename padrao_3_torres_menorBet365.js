@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         padrão_2_paresBet365
+// @name         padrao_3_torres_menorBet365
 // @namespace    http://tampermonkey.net/
 // @version      1
 // @description  Esta função faz o envio de forma esporádica a cada 30 segundos de sinais bet 365
@@ -13,14 +13,20 @@
 
 (function () {
   "use strict";
+  // delay de 30 segundos
   const delay = 30 * 1000;
-  const blockedValues = ["2.40", "2.37"];
   let lastSentMessage = "";
   let ultimoPadrao = "ultimo";
   let penultimoPadrao = "penultimo"
   let antepenultimo = "antepenultimo"
   const token = "6747759570:AAFw4-rtwKN0kG5zGYdO8db397kSyrDGMBQ";
   const chat_id = "5754261195";
+  // Função auxiliar para obter os valores de uma célula
+  const getCellValues = (cell) => {
+    return Array.from(cell.querySelectorAll("span")).map((span) =>
+      span.textContent.trim()
+    );
+  };
 
     function sendMessage(text) {
     if (text !== lastSentMessage) {
@@ -59,47 +65,41 @@
     let cells = firstRow.querySelectorAll("td.SemDados");
 
     // Itera sobre cada célula
-    for (let i = cells.length - 2; i >= 0; i--) {
-      let currentCell = cells[i];
-      let nextCell = cells[i + 1];
+    for (let i = 0; i < cells.length - 2; i++) {
+      let firstCell = cells[i];
+      let secondCell = cells[i + 1];
+      let thirdCell = cells[i + 2];
 
-      // Seleciona todos os elementos span dentro da célula atual
-      let spanElements = currentCell.querySelectorAll("span");
+      // Obtem os valores das células atual, próxima e após a próxima
+      let firstValues = getCellValues(firstCell);
+      let secondValues = getCellValues(secondCell);
+      let thirdValues = getCellValues(thirdCell);
 
-      // Array para armazenar os valores da célula atual
-      let currentValues = [];
-
-      // Itera sobre os elementos span e obtém o texto de cada um
-      spanElements.forEach((span) => {
-        currentValues.push(span.textContent.trim());
-      });
-
-      // Selecionar todos os elementos span dentro da célula seguinte
-      let nextSpanElements = nextCell.querySelectorAll("span");
-
-      // Array para armazenar os valores da célula seguinte
-      let nextValues = [];
-
-      // Iterar sobre os elementos span da célula seguinte e obter o texto de cada um
-      nextSpanElements.forEach((span) => {
-        nextValues.push(span.textContent.trim());
-      });
-
-      // Array para armazenar os valores que combinam usando um conjunto para evitar duplicatas
+      // Arrays para armazenar os valores que combinam usando um conjunto para evitar duplicatas
       let intersectingValues = new Set();
 
-     // Iterar sobre os valores da célula atual
-      currentValues.forEach((currentValue) => {
-          //console.log(typeof currentValue)
-        // Verificar se existe correspondente na célula seguinte e se não está bloqueado
-        if (nextValues.includes(currentValue) && !blockedValues.includes(currentValue)) {
-          intersectingValues.add(currentValue);
+     // Itera sobre os valores da 1ª célula e da 3ª célula
+     secondValues.forEach((secondValue) => {
+           //console.log(typeof firstValue)
+        // Verifica se existe correspondente na 1ª célula e depois na 3ª
+        if (
+          firstValues.includes(secondValue) &&
+          parseFloat(secondValue) >= 2.40 &&
+          parseFloat(secondValue) <= 3.75
+        ) {
+          intersectingValues.add(secondValue);
+        }
+        if (
+          thirdValues.includes(secondValue) &&
+          parseFloat(secondValue) >= 2.40 &&
+          parseFloat(secondValue) <= 3.75
+        ) {
+          intersectingValues.add(secondValue);
         }
       });
-
       // Verifica se há mais de 2 valores no array intersectingValues e se os valores são diferentes
       if (intersectingValues.size >= 2) {
-          let nova_mensagem = `Padrão 2 Pares SpeedWay: ${currentValues} e ${nextValues}`
+          let nova_mensagem = `Padrão 3 Torres: \n1ª${firstValues} \n2ª${secondValues} \n3ª${thirdValues} \nPadrões: ${Array.from(intersectingValues)}`
           // TRAVA PARA ULTIMO E PENULTIMO PADRAO
           if (nova_mensagem != ultimoPadrao && ultimoPadrao != penultimoPadrao && nova_mensagem != penultimoPadrao && penultimoPadrao != antepenultimo) {
               antepenultimo = penultimoPadrao

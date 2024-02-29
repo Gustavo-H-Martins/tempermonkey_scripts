@@ -101,11 +101,6 @@
             let nova_mensagem = `Padrão Zebra 2 torres SpeedWay: ${currentValues} e ${nextValues}`
             // TRAVA PARA ULTIMO E PENULTIMO PADRAO
             if (nova_mensagem != ultimoPadrao && ultimoPadrao != penultimoPadrao && nova_mensagem != penultimoPadrao && penultimoPadrao != antepenultimo && antepenultimo != anteantepenultimo) {
-                /*
-                console.log(`Último Padrâo: ${ultimoPadrao}`);
-                console.log(`Penúltimo Padrão:${penultimoPadrao}`)
-                console.log(`Antepenúltimo Padrão:${antepenultimo}`)
-                */
                 antepenultimo = penultimoPadrao
                 penultimoPadrao = ultimoPadrao
                 ultimoPadrao = nova_mensagem
