@@ -2,7 +2,7 @@
 // @name         padrão_2_paresBet365
 // @namespace    http://tampermonkey.net/
 // @version      1
-// @description  Esta função faz o envio de forma esporádica a cada 30 segundos de sinais bet 365
+// @description  Esta função faz o envio de forma esporádica a cada 500 milisegundos de sinais bet 365
 // @author       Gustavo Martins
 // @match        https://bbtips.com.br/speedway/horarios
 // @match        https://app.bbtips.com.br/speedway/horarios
@@ -99,9 +99,14 @@
 
       // Verifica se há mais de 2 valores no array intersectingValues e se os valores são diferentes
       if (intersectingValues.size >= 2) {
-          let nova_mensagem = `Padrão 2 Pares SpeedWay: ${currentValues} e ${nextValues}`
+          let nova_mensagem = `Conjuntos comuns encontrados: ${currentValues} e ${nextValues}`
           // TRAVA PARA ULTIMO E PENULTIMO PADRAO
           if (nova_mensagem != ultimoPadrao && ultimoPadrao != penultimoPadrao && nova_mensagem != penultimoPadrao && penultimoPadrao != antepenultimo) {
+              /*
+              console.log(`Último Padrâo: ${ultimoPadrao}`);
+              console.log(`Penúltimo Padrão:${penultimoPadrao}`)
+              console.log(`Antepenúltimo Padrão:${antepenultimo}`)
+              */
               antepenultimo = penultimoPadrao
               penultimoPadrao = ultimoPadrao
               ultimoPadrao = nova_mensagem
