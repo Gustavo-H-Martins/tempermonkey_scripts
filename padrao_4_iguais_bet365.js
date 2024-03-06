@@ -67,13 +67,15 @@
 
             // Encontra os valores que estão em ambas as células
             const intersectingValues = getIntersectingValues(currentValues, nextValues);
+            const concatValues = getConcatValues(currentValues, nextValues);
 
             // Conta a ocorrência de valores repetidos
-            const dicionario = countValues(intersectingValues);
+            const dicionario = countValues(concatValues);
+
 
             // Verifica a condição para processar a mensagem
             if (checkCondition(intersectingValues, dicionario)) {
-                const nova_mensagem = `Padrão 4 Valores Iguais: ${currentValues} e ${nextValues}`;
+                const nova_mensagem = `Padrão 4 Valores Iguais: \n1ª ${currentValues} \n2ª${nextValues} \nPadrões: ${intersectingValues}`;
                 // Lida com o novo padrão
                 handleNewPattern(nova_mensagem);
             }
@@ -91,6 +93,11 @@
         return new Set(currentValues.filter(value => nextValues.includes(value)));
     }
 
+    function getConcatValues(currentValues, nextValues) {
+        let listaConcatenada = currentValues.concat(nextValues);
+        return listaConcatenada.map(parseFloat);
+    }
+
     // Conta a ocorrência de valores repetidos
     function countValues(values) {
         const dicionario = {};
@@ -101,9 +108,9 @@
     }
 
     // Verifica a condição para processar a mensagem
-    function checkCondition(intersectingValues, dicionario) {
+    function checkCondition(concatValues, dicionario) {
         const valorEncontrado = Object.values(dicionario).some(contagem => contagem >= 4);
-        return intersectingValues.size >= 2 && valorEncontrado;
+        return concatValues.size >= 1 && valorEncontrado;
     }
 
     // Lida com o novo padrão
