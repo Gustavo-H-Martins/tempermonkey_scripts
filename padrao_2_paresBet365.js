@@ -102,11 +102,6 @@
           let nova_mensagem = `Conjuntos comuns encontrados: ${currentValues} e ${nextValues}`
           // TRAVA PARA ULTIMO E PENULTIMO PADRAO
           if (nova_mensagem != ultimoPadrao && ultimoPadrao != penultimoPadrao && nova_mensagem != penultimoPadrao && penultimoPadrao != antepenultimo) {
-              /*
-              console.log(`Último Padrâo: ${ultimoPadrao}`);
-              console.log(`Penúltimo Padrão:${penultimoPadrao}`)
-              console.log(`Antepenúltimo Padrão:${antepenultimo}`)
-              */
               antepenultimo = penultimoPadrao
               penultimoPadrao = ultimoPadrao
               ultimoPadrao = nova_mensagem
