@@ -51,69 +51,69 @@
 
   function checkForNewColumn() {
     // Seleciona apenas a primeira linha da tabela
-    let firstRow = document.querySelector(
-      "body > app-root > app-horarios > main > section > div.row.d-flex.justify-content-around.mt-1 > div.col-md-10.mt-6 > table > tbody > tr:nth-child(1)"
+    const firstRow = document.querySelector(
+        "body > app-root > app-horarios > main > section > div.row.d-flex.justify-content-around.mt-1 > div.col-md-10.mt-6 > table > tbody > tr:nth-child(1)"
     );
 
     if (!firstRow) {
-      console.error("Nenhuma linha encontrada.");
-      return;
+        console.error("Nenhuma linha encontrada.");
+        return;
     }
 
     // Seleciona todas as células da linha
-    //let cells = firstRow.querySelectorAll("td.undefined.SemDados");
-    let cells = firstRow.querySelectorAll("td.SemDados");
+    const cells = firstRow.querySelectorAll("td.SemDados");
 
-    // Itera sobre cada célula
-    for (let i = 0; i < cells.length - 2; i++) {
-      let firstCell = cells[i];
-      let secondCell = cells[i + 1];
-      let thirdCell = cells[i + 2];
+    // For invertido para simplificar
+    for (let i = cells.length - 3; i >= 0; i--) {
+        const firstCell = cells[i];
+        const secondCell = cells[i + 1];
+        const thirdCell = cells[i + 2];
 
-      // Obtem os valores das células atual, próxima e após a próxima
-      let firstValues = getCellValues(firstCell);
-      let secondValues = getCellValues(secondCell);
-      let thirdValues = getCellValues(thirdCell);
+        // Obtem os valores das células atual, próxima e após a próxima
+        const firstValues = getCellValues(firstCell);
+        const secondValues = getCellValues(secondCell);
+        const thirdValues = getCellValues(thirdCell);
 
-      // Arrays para armazenar os valores que combinam usando um conjunto para evitar duplicatas
-      let intersectingValues = new Set();
+        // Arrays para armazenar os valores que combinam usando um conjunto para evitar duplicatas
+        const intersectingValues = new Set();
 
-     // Itera sobre os valores da 1ª célula e da 3ª célula
-     secondValues.forEach((secondValue) => {
-           //console.log(typeof firstValue)
-        // Verifica se existe correspondente na 1ª célula e depois na 3ª
-        if (
-          firstValues.includes(secondValue) &&
-          parseFloat(secondValue) >= 2.40 &&
-          parseFloat(secondValue) <= 3.75
-        ) {
-          intersectingValues.add(secondValue);
-        }
-        if (
-          thirdValues.includes(secondValue) &&
-          parseFloat(secondValue) >= 2.40 &&
-          parseFloat(secondValue) <= 3.75
-        ) {
-          intersectingValues.add(secondValue);
-        }
-      });
-      // Verifica se há mais de 2 valores no array intersectingValues e se os valores são diferentes
-      if (intersectingValues.size >= 2) {
-          let nova_mensagem = `Padrão 3 Torres: \n1ª${firstValues} \n2ª${secondValues} \n3ª${thirdValues} \nPadrões: ${Array.from(intersectingValues)}`
-          // TRAVA PARA ULTIMO E PENULTIMO PADRAO
-          if (nova_mensagem != ultimoPadrao && ultimoPadrao != penultimoPadrao && nova_mensagem != penultimoPadrao && penultimoPadrao != antepenultimo) {
-              antepenultimo = penultimoPadrao
-              penultimoPadrao = ultimoPadrao
-              ultimoPadrao = nova_mensagem
-              console.log(`Nova Mensagem: ${nova_mensagem}`);
-              sendMessage(nova_mensagem);
-          }
-          else{
-            console.log("Estão tentando passar, mas estamos travando aqui!");
-        }
+        // Itera sobre os valores da 1ª célula e da 3ª célula
+        [firstValues, thirdValues].forEach((cellValues) => {
+            secondValues.forEach((secondValue) => {
+                if (
+                    cellValues.includes(secondValue) &&
+                    parseFloat(secondValue) >= 2.40 &&
+                    parseFloat(secondValue) <= 3.75
+                ) {
+                    intersectingValues.add(secondValue);
+                }
+            });
+        });
+
+        // Verifica se há mais de 2 valores no array intersectingValues
+        if (intersectingValues.size >= 2) {
+            const nova_mensagem = createMessage(firstValues, secondValues, thirdValues, intersectingValues);
+            handleNewPattern(nova_mensagem);
         }
     }
+}
+
+function createMessage(firstValues, secondValues, thirdValues, intersectingValues) {
+    return `Padrão 3 Torres: \n1ª${firstValues} \n2ª${secondValues} \n3ª${thirdValues} \nPadrões: ${Array.from(intersectingValues)}`;
+}
+
+// Lida com o novo padrão
+function handleNewPattern(nova_mensagem) {
+  if (nova_mensagem !== ultimoPadrao && ultimoPadrao !== penultimoPadrao && nova_mensagem !== penultimoPadrao && penultimoPadrao !== antepenultimo) {
+      antepenultimo = penultimoPadrao;
+      penultimoPadrao = ultimoPadrao;
+      ultimoPadrao = nova_mensagem;
+      console.log(`Nova Mensagem: ${nova_mensagem}`);
+      sendMessage(nova_mensagem);
+  } else {
+      console.log("Estão tentando passar, mas estamos travando aqui!");
   }
+}
 
   setInterval(checkForNewColumn, delay);
 })();
