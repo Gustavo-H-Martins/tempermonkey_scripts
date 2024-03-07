@@ -75,9 +75,12 @@
 
             // Verifica a condição para processar a mensagem
             if (checkCondition(intersectingValues, dicionario)) {
-                const nova_mensagem = `Padrão 4 Valores Iguais: \n1ª ${currentValues} \n2ª${nextValues} \nPadrões: ${Array.from(intersectingValues)}`;
+                const nova_mensagem = `Padrão 4 Valores Iguais: \n1ª ${currentValues} \n2ª ${nextValues} \nPadrões: ${Array.from(intersectingValues)}`;
                 // Lida com o novo padrão
                 handleNewPattern(nova_mensagem);
+            } else {
+                // Avisa que o padrão encontrado está vazio
+                console.log("Condição não atendida. Não há valores não vazios suficientes.");
             }
         }
     }
@@ -108,9 +111,11 @@
     }
 
     // Verifica a condição para processar a mensagem
-    function checkCondition(concatValues, dicionario) {
+    function checkCondition(intersectingValues, dicionario) {
+        const hasNonEmptyValues = intersectingValues.size >= 1 && Array.from(intersectingValues).some(value => value !== "");
         const valorEncontrado = Object.values(dicionario).some(contagem => contagem >= 4);
-        return concatValues.size >= 1 && valorEncontrado;
+        
+        return hasNonEmptyValues && valorEncontrado;
     }
 
     // Lida com o novo padrão

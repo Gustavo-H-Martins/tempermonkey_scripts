@@ -10,10 +10,11 @@ function getConcatValues(currentValues, nextValues) {
 
 // Verifica a condição para processar a mensagem
 function checkCondition(intersectingValues, dicionario) {
+    const hasNonEmptyValues = intersectingValues.size >= 1 && Array.from(intersectingValues).some(value => value !== "");
     const valorEncontrado = Object.values(dicionario).some(contagem => contagem >= 4);
-    return intersectingValues.size >= 1 && valorEncontrado;
+    
+    return hasNonEmptyValues && valorEncontrado;
 }
-
 
 // Conta a ocorrência de valores repetidos
 function countValues(values) {
@@ -24,14 +25,14 @@ function countValues(values) {
     return dicionario;
 }
 
-
 // Obtém os valores das células atual e seguinte
-let currentValues = ["1.2", "4.0", "3.5", "3.5"];
-let nextValues = ["9.5", "10.00", "3.5", "3.5"];
+let currentValues = ["1.2", "4.0", "", ""];
+let nextValues = ["9.5", "10.00", "", ""];
 
 // Encontra os valores que estão em ambas as células
 const intersectingValues = getIntersectingValues(currentValues, nextValues);
 const concatValues = getConcatValues(currentValues, nextValues);
+
 
 // Conta a ocorrência de valores repetidos
 const dicionario = countValues(concatValues);
@@ -42,5 +43,6 @@ if (checkCondition(intersectingValues, dicionario)) {
     const nova_mensagem = `Padrão 4 Valores Iguais: \n1ª ${currentValues} \n2ª ${nextValues} \nPadrões: ${Array.from(intersectingValues)}`;
     // Lida com o novo padrão
     console.log(nova_mensagem);
-    console.log(parseFloat(""))
+} else {
+    console.log("Condição não atendida. Não há valores não vazios suficientes.");
 }
